@@ -18,10 +18,16 @@ const Form = ({ currentId, setCurrentId }) => {
     selectedFile: ''
   });
 
-  const post = useSelector((state) => (currentId ? state.posts.find((message) => message._id === currentId) : null));
+ /* const post = useSelector((state) => (currentId ? state.posts.find((message) => message._id === currentId) : null));
   useEffect(() => {
     if (post) setPostData(post);
-  }, [post]);
+  }, [post]);*/
+
+  useEffect(() => {
+    const post = useSelector((state) => (currentId ? state.posts.find((message) => message._id === currentId) : null));
+
+    if(post)  setPostData(post);
+  }, [currentId]);
 
   const clear = () => {
     setCurrentId(0);
@@ -42,6 +48,7 @@ const Form = ({ currentId, setCurrentId }) => {
   return (
     <Paper className={classes.paper}>
       <form autoComplete="off" noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
+
         <Typography variant="h6">{currentId ? `Editing "${post.title}"` : 'Creating a Memory'}</Typography>
 
         <TextField name="creator" variant="outlined" label="Creator" fullWidth value={postData.creator} onChange={(e) => setPostData({ ...postData, creator: e.target.value })} />
